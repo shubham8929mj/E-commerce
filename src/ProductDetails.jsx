@@ -7,6 +7,7 @@ const ProductDetails = ({ onAddToCart, cartItems, handleRemoveItem }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imgLoading, setImgLoading] = useState(true);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -25,6 +26,9 @@ const ProductDetails = ({ onAddToCart, cartItems, handleRemoveItem }) => {
     fetchProductDetails();
   }, [id]);
 
+  const handleImageLoad = () => {
+    setImgLoading(false);
+  };
   if (loading) {
     return <Loader />;
   }
@@ -32,11 +36,14 @@ const ProductDetails = ({ onAddToCart, cartItems, handleRemoveItem }) => {
     <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row items-center bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="w-full md:w-1/2 h-64 md:h-96 bg-gray-200 flex items-center justify-center">
-          <img
-            src={product.image}
-            alt={product.title}
-            className="object-contain max-h-full"
-          />
+        
+          {imgLoading && <Loader/>}
+        <img
+         src={product.image}
+         alt={product.title}
+         className="object-contain max-h-full"
+          onLoad={handleImageLoad}
+        />
         </div>
         <div className="w-full md:w-1/2 p-4 md:p-8">
           <h1 className="text-3xl font-bold mb-4">{product.title}</h1>

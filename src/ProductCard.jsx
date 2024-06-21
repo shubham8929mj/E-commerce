@@ -1,14 +1,11 @@
 // ProductCard.jsx
-import React from "react";
+import React, { useState } from "react";
+import Loader from "./Loader.jsx";
 import { Link, useNavigate } from "react-router-dom";
 
-const ProductCard = ({
-  product,
-  onAddToCart,
-  isItemInCart,
-  handleRemoveItem,
-}) => {
+const ProductCard = ({ product, onAddToCart, isItemInCart, handleRemoveItem }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleAddToCart = () => {
     onAddToCart(product);
@@ -17,27 +14,33 @@ const ProductCard = ({
   const handleRemoveFromCart = () => {
     handleRemoveItem(product.id);
   };
+
   const handleRoute = (event) => {
     if (event.target.tagName !== "BUTTON") {
       navigate(`/product/${product.id}`);
     }
   };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
   return (
     <div
       className="border rounded-lg p-4 h-[100%] shadow-md overflow-hidden transition-transform duration-300 transform hover:scale-105 flex flex-col"
       onClick={handleRoute}
     >
       <div className="flex-grow flex items-center justify-center h-3/5">
+        {isLoading && <Loader/>}
         <img
           src={product.image}
           alt={product.title}
-          className="object-contain max-h-full"
+          className={`object-contain max-h-full ${isLoading ? 'hidden' : 'block'}`}
+          onLoad={handleImageLoad}
         />
       </div>
-      <div className="flex flex-col items-center justify-center h-2/5 mt-4 over">
-        <h2 className="text-lg font-semibold mb-2 text-center">
-          {product.title}
-        </h2>
+      <div className="flex flex-col items-center justify-center h-2/5 mt-4">
+        <h2 className="text-lg font-semibold mb-2 text-center">{product.title}</h2>
         <p className="text-gray-700 mb-2">${product.price}</p>
         {isItemInCart ? (
           <button
