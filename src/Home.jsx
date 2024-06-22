@@ -24,6 +24,10 @@ const Home = ({ onAddToCart, cartItems, handleRemoveItem }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page whenever currentPage changes
+  }, [currentPage]);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -53,7 +57,7 @@ const Home = ({ onAddToCart, cartItems, handleRemoveItem }) => {
           ))}
         </div>
       )}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-4">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
