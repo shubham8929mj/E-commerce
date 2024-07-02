@@ -1,4 +1,4 @@
-# E-Commerce Product List with Pagination
+# E-Commerce 
 
 This is an E-Commerce application that allows users to browse products, view product details, and manage a shopping cart. The application includes pagination for easier navigation through the product listings.
 
